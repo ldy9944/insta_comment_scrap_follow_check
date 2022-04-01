@@ -95,8 +95,8 @@ while oldHeight != newHeight:
 
 follow_container = driver.find_elements_by_class_name('wo9IH')
 
-for i in follow_container:
-    follower = i.find_element_by_class_name('d7ByH')
+for ai in follow_container:
+    follower = ai.find_element_by_class_name('d7ByH')
     all_follow.append(follower.text)
 
 for i in id_f:
