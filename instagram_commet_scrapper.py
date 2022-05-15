@@ -2,6 +2,7 @@ from selenium import webdriver
 import time
 from openpyxl import Workbook
 import pandas as pd
+import instaloader
 
 # Excel シート作成
 wb = Workbook(write_only=True)
@@ -59,7 +60,7 @@ while True:
         except:
             break
 
-time.sleep(3)
+time.sleep(1)
 
 # ユーザー名とコメントをリスト化
 
@@ -80,29 +81,21 @@ for c in container:
 all_follow = list()
 now_follow = list()
 
-driver.find_element_by_xpath('//header/div[2]/div[1]/div[1]/div/span/a').click()
-time.sleep(1.5)
-driver.find_element_by_xpath('//ul/li[2]/a').click()
-time.sleep(2)
+L = instaloader.Instaloader()
 
-oldHeight = -1
-newHeight = -2
-while oldHeight != newHeight:
-    oldHeight = newHeight
-    newHeight = driver.execute_script("return document.querySelectorAll('.jSC57')[0].scrollHeight")
-    driver.execute_script("document.querySelectorAll('.isgrP')[0].scrollTo(0,document.querySelectorAll('.jSC57')[0].scrollHeight)")
-    time.sleep(2)
+L.login(insta_id, insta_pw)
 
-follow_container = driver.find_elements_by_class_name('wo9IH')
+profile = instaloader.Profile.from_username(L.context, insta_id)
 
-for ai in follow_container:
-    follower = ai.find_element_by_class_name('d7ByH')
-    f_id = follower.text
-
-    if '\n' in f_id:
-        f_id = f_id[:f_id.index('\n')]
-        
-    all_follow.append(f_id)
+count = 0
+for followee in profile.get_followers():
+    all_follow.append(followee.username)
+    file = open("prada_followers.txt", "a+")
+    file.write(all_follow[count])
+    file.write("\n")
+    file.close()
+    print(all_follow[count])
+    count = count + 1
 
 for i in id_f:
     if i in all_follow:
