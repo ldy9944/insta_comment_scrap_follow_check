@@ -9,3 +9,7 @@ selenium
 Chorme webdriver  
 openpyxl  
 pandas
+instaloader
+## 2022年5月15日更新
+既存フォロー可否チェック機能はHTMLコードが変わると使えなくなるため  
+Moduleを使い現象を改善しました。
